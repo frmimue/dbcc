@@ -1,4 +1,5 @@
 import json
+from flask import Flask, request, abort
 
 class TextAnalyzer:
 
@@ -36,4 +37,22 @@ class TextAnalyzer:
                     result["characterCount"][c] = 1
             
         return json.dumps(result, sort_keys=True, indent=4)
+
+
+app = Flask(__name__)
+
+@app.route('/analyze', methods=['POST'])
+def analyze():
+
+    try:
+        data = request.json
+        text = data["text"]
+
+        return TextAnalyzer.analyze(text)
+
+    except:
+        abort(400)
+
+if __name__ == "__main__":
+    app.run()
             
