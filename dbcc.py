@@ -6,37 +6,43 @@ class TextAnalyzer:
     @staticmethod
     def analyze(text):
 
-        result = {
-            "textLength": {
-                "withSpaces": 0,
-                "withoutSpaces": 0
-            },
-            "wordCount": 0,
-            "characterCount": {}
-        }
+        textLength = 0
+        numSpaces = 0
+        wordCount = 0
+        characterCount = {}
 
         activeWord = False
 
         for c in text:
 
-            result["textLength"]["withSpaces"] += 1
+            textLength += 1
 
-            if not c.isspace():
-                result["textLength"]["withoutSpaces"] += 1
-            else:
+            if c.isspace():
+                numSpaces += 1
                 activeWord = False
 
             if not c.isspace() and not activeWord:
                 activeWord = True
-                result["wordCount"] += 1
+                wordCount += 1
 
             if c.isalpha():
-                if c in result["characterCount"]:
-                    result["characterCount"][c] += 1
+                c_asLowerCase = c.lower()
+                if c_asLowerCase in characterCount:
+                    characterCount[c_asLowerCase] += 1
                 else:
-                    result["characterCount"][c] = 1
-            
-        return json.dumps(result, sort_keys=True, indent=4)
+                    characterCount[c_asLowerCase] = 1
+
+        return json.dumps(
+            {
+                "textLength":
+                {
+                    "withSpaces": textLength, 
+                    "withoutSpaces": textLength-numSpaces
+                }, 
+                "wordCount": wordCount, 
+                "characterCount": [ {k: characterCount[k]} for k in sorted(characterCount)]
+            }
+        )
 
 
 app = Flask(__name__)
