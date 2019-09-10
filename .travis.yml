@@ -1,8 +1,12 @@
 language: python
 python:
-  - "3.7"
+- '3.7'
 install:
-  - pip install -r requirements.txt
+- pip install -r requirements.txt
 script:
-  # Run tests
-  - pytest
+- pytest
+deploy:
+  provider: heroku
+  api_key:
+    secure: eMUKpfiUE1WVVrp18sSpC6chG6lG36mnW6GsB5Sufg5rPU5BFMS5B44bRM9VjiiROcca7SOPWcjUjJXJ6BygQFXK2uMhBUXEGEKA6Jal90XMWgiGZ/iXokWOf0ECZI4yf1I3T3kGFgWHQo/qbW5TILBTDOvFuVXOQcmP7RgjDGFxOSgfVQEllxT3JVNzsAtPLyFIU9qpUjOMKxYjo34Kj4uiYsFYvWogFvmyIwt50jUk7YF0ymXypS7xMpStV6IPV+k4fW/wJcZbkh60yThkNI8AXxSpU5w7J7ESOw7K6E6cR15rkhT++vZyX1ICGH7LPS9gji0DLeNdeiAIprm7cit49i14v8VMac35D49ivRtNvOOkoJOErIuAM3oJf+KOCZKgKl9qbvpGtaJB8oyD+dEeIr5xeAlGPpEm2q6dOZ9Nrvf9RdAxQhyzmYknb+MoovDReDpzSVdcIIpjnd7E6Ba2pE3pp9DZuiEvTkryYNSGuMAhJzupM0Dn3T19mpxiZvxaSfhRQKdN3nCUwTpFNqpQdLvPdySCOmR5O7q/VlIiV9+MrOD1Nt8hssdVxdi8W8deH/kbzWk2/X46WDDof2SHzk5mrrgqABil+xnpGsPN/RIWuGWebl6r83j3KD3BXbPPYBaYP5PAlrSDsc0ZhRhLbx9k5d+IYJJG1XMAi5o=
+  app: frmimue-dbcc
