@@ -22,6 +22,8 @@ class TextAnalyzer:
 
             if not c.isspace():
                 result["textLength"]["withoutSpaces"] += 1
+            else:
+                activeWord = False
 
             if not c.isspace() and not activeWord:
                 activeWord = True
