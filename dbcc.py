@@ -8,21 +8,35 @@ class AnalyzedText:
         self.__numSpaces = 0
         self.__wordCount = 0
         self.__characterCount = []
-        
+
+        self.__analyze(text)
+
+    def __analyze(self, text):
+
         activeWord = False
         characterCountDictionary = {}
 
+        # Analyze each character in the text individually
+
         for character in text:
 
+            # Increase the text length by one for every character in the text
+
             self.__textLength += 1
+
+            # If the current character is a space we increase the space counter by one, this also means that we are not processing a word anymore
 
             if character.isspace():
                 self.__numSpaces += 1
                 activeWord = False
 
+            # If the current character is not a space and we are not already processing a word we have hit a new word, increasing the word counter by one and starting to process a new word
+
             if not character.isspace() and not activeWord:
                 activeWord = True
                 self.__wordCount += 1
+
+            # If the current character is in the english alphabet we take the lower case version and increase the counter for it by one or set the counter to one if this is the first occurrence
 
             if character.isalpha():
                 lowerCaseCharacter = character.lower()
@@ -30,6 +44,8 @@ class AnalyzedText:
                     characterCountDictionary[lowerCaseCharacter] += 1
                 else:
                     characterCountDictionary[lowerCaseCharacter] = 1
+
+        # Turn the character counter into the final format 
 
         self.__characterCount = [ {k: characterCountDictionary[k]} for k in sorted(characterCountDictionary)]
 
