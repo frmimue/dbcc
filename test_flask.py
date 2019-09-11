@@ -15,16 +15,16 @@ class TestFlaskExample:
 
 
     def test_flaskWordCount(self):
-        response = json.loads(self.client.post('/analyze', json=self.exampleJson).json)
+        response = self.client.post('/analyze', json=self.exampleJson).json
         assert response["wordCount"] == 3
 
     def test_flaskTextLength(self):
-        response = json.loads(self.client.post('/analyze', json=self.exampleJson).json)
+        response = self.client.post('/analyze', json=self.exampleJson).json
         assert response["textLength"]["withSpaces"] == 15
         assert response["textLength"]["withoutSpaces"] == 11
 
     def test_flaskCharacterCount(self):
-        response = json.loads(self.client.post('/analyze', json=self.exampleJson).json)
+        response = self.client.post('/analyze', json=self.exampleJson).json
 
         assert response["characterCount"] == [
         {"e": 2},

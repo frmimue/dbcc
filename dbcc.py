@@ -32,8 +32,7 @@ class TextAnalyzer:
                 else:
                     characterCount[c_asLowerCase] = 1
 
-        return json.dumps(
-            {
+        return {
                 "textLength":
                 {
                     "withSpaces": textLength, 
@@ -42,7 +41,7 @@ class TextAnalyzer:
                 "wordCount": wordCount, 
                 "characterCount": [ {k: characterCount[k]} for k in sorted(characterCount)]
             }
-        )
+        
 
 
 app = Flask(__name__)

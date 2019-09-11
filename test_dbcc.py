@@ -7,16 +7,16 @@ class TestExample:
     exampleText = "hello 2 times  "
 
     def test_wordCount(self):
-        response = json.loads(TextAnalyzer.analyze(self.exampleText))
+        response = TextAnalyzer.analyze(self.exampleText)
         assert response["wordCount"] == 3
 
     def test_textLength(self):
-        response = json.loads(TextAnalyzer.analyze(self.exampleText))
+        response = TextAnalyzer.analyze(self.exampleText)
         assert response["textLength"]["withSpaces"] == 15
         assert response["textLength"]["withoutSpaces"] == 11
 
     def test_characterCount(self):
-        response = json.loads(TextAnalyzer.analyze(self.exampleText))
+        response = TextAnalyzer.analyze(self.exampleText)
 
         assert response["characterCount"] == [
         {"e": 2},
