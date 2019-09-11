@@ -18,8 +18,6 @@ class TestExample:
     def test_characterCount(self):
         response = json.loads(TextAnalyzer.analyze(self.exampleText))
 
-        print(response)
-
         assert response["characterCount"] == [
         {"e": 2},
         {"h": 1},
