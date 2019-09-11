@@ -1,24 +1,22 @@
 import pytest
 import json
-from dbcc import TextAnalyzer
+from dbcc import AnalyzedText
 
 class TestExample:
 
-    exampleText = "hello 2 times  "
+    analyzedExampleText = AnalyzedText("hello 2 times  ")
 
     def test_wordCount(self):
-        response = TextAnalyzer.analyze(self.exampleText)
-        assert response["wordCount"] == 3
+        assert self.analyzedExampleText.wordCount() == 3
 
-    def test_textLength(self):
-        response = TextAnalyzer.analyze(self.exampleText)
-        assert response["textLength"]["withSpaces"] == 15
-        assert response["textLength"]["withoutSpaces"] == 11
+    def test_textLengthWithSpaces(self):
+        assert self.analyzedExampleText.textLengthWithSpaces() == 15
+
+    def test_textLengthWithoutSpaces(self):
+        assert self.analyzedExampleText.textLengthWithoutSpaces() == 11
 
     def test_characterCount(self):
-        response = TextAnalyzer.analyze(self.exampleText)
-
-        assert response["characterCount"] == [
+        assert self.analyzedExampleText.characterCount() == [
         {"e": 2},
         {"h": 1},
         {"i": 1},

@@ -1,47 +1,62 @@
 import json
 from flask import Flask, request, abort, jsonify
 
-class TextAnalyzer:
+class AnalyzedText:
 
-    @staticmethod
-    def analyze(text):
-
-        textLength = 0
-        numSpaces = 0
-        wordCount = 0
-        characterCount = {}
-
+    def __init__(self, text):
+        self.__textLength = 0
+        self.__numSpaces = 0
+        self.__wordCount = 0
+        self.__characterCount = []
+        
         activeWord = False
+        characterCountDictionary = {}
 
-        for c in text:
+        for character in text:
 
-            textLength += 1
+            self.__textLength += 1
 
-            if c.isspace():
-                numSpaces += 1
+            if character.isspace():
+                self.__numSpaces += 1
                 activeWord = False
 
-            if not c.isspace() and not activeWord:
+            if not character.isspace() and not activeWord:
                 activeWord = True
-                wordCount += 1
+                self.__wordCount += 1
 
-            if c.isalpha():
-                c_asLowerCase = c.lower()
-                if c_asLowerCase in characterCount:
-                    characterCount[c_asLowerCase] += 1
+            if character.isalpha():
+                lowerCaseCharacter = character.lower()
+                if lowerCaseCharacter in characterCountDictionary:
+                    characterCountDictionary[lowerCaseCharacter] += 1
                 else:
-                    characterCount[c_asLowerCase] = 1
+                    characterCountDictionary[lowerCaseCharacter] = 1
 
-        return {
+        self.__characterCount = [ {k: characterCountDictionary[k]} for k in sorted(characterCountDictionary)]
+
+    def textLengthWithSpaces(self):
+        return self.__textLength
+
+    def textLengthWithoutSpaces(self):
+        return self.__textLength - self.__numSpaces
+
+    def wordCount(self):
+        return self.__wordCount
+
+    def characterCount(self):
+        return self.__characterCount
+
+    def jsonResponse(self):
+        return jsonify(
+            {
                 "textLength":
                 {
-                    "withSpaces": textLength, 
-                    "withoutSpaces": textLength-numSpaces
+                    "withSpaces": self.__textLength, 
+                    "withoutSpaces": self.__textLength - self.__numSpaces
                 }, 
-                "wordCount": wordCount, 
-                "characterCount": [ {k: characterCount[k]} for k in sorted(characterCount)]
+                "wordCount": self.__wordCount, 
+                "characterCount": self.__characterCount
             }
-        
+        )
 
 
 app = Flask(__name__)
@@ -50,10 +65,10 @@ app = Flask(__name__)
 def analyze():
     
     try:
-        data = request.json
-        text = data["text"]
+        jsonData = request.json
+        text = jsonData["text"]
 
-        return jsonify(TextAnalyzer.analyze(text))
+        return AnalyzedText(text).jsonResponse()
 
     except:
         abort(400)
