@@ -1,5 +1,5 @@
 import json
-from flask import Flask, request, abort
+from flask import Flask, request, abort, jsonify
 
 class TextAnalyzer:
 
@@ -49,12 +49,12 @@ app = Flask(__name__)
 
 @app.route('/analyze', methods=['POST'])
 def analyze():
-
+    
     try:
         data = request.json
         text = data["text"]
 
-        return TextAnalyzer.analyze(text)
+        return jsonify(TextAnalyzer.analyze(text))
 
     except:
         abort(400)
